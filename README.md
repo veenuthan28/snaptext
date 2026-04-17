@@ -1,0 +1,1 @@
+# SnapText-Extract-text-from-any-image-instantly.
