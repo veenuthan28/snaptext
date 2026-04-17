@@ -1,0 +1,208 @@
+/* SnapText Overlay – injected inside Shadow DOM */
+
+:host {
+  all: initial;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.snaptext-overlay {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 380px;
+  max-height: 80vh;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.18),
+    0 2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 2147483647;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    sans-serif;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: snaptext-slide-in 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.snaptext-slide-out {
+  animation: snaptext-slide-out 0.2s ease forwards;
+}
+
+@keyframes snaptext-slide-in {
+  from {
+    transform: translateX(110%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes snaptext-slide-out {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(110%);
+    opacity: 0;
+  }
+}
+
+/* ---- Header ---- */
+
+.snaptext-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 18px;
+  background: linear-gradient(135deg, #1a73e8, #1557b0);
+  color: #fff;
+  user-select: none;
+}
+
+.snaptext-title {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  display: flex;
+  align-items: center;
+}
+
+.snaptext-close {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0 2px;
+  line-height: 1;
+  opacity: 0.75;
+  transition: opacity 0.15s;
+}
+
+.snaptext-close:hover {
+  opacity: 1;
+}
+
+/* ---- Body ---- */
+
+.snaptext-body {
+  padding: 18px;
+  overflow-y: auto;
+  flex: 1;
+  max-height: 60vh;
+}
+
+.snaptext-text {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family:
+    'Cascadia Code', 'Fira Code', Consolas, Monaco, 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #1f1f1f;
+  margin: 0;
+  background: #f6f8fa;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #e2e6ea;
+}
+
+/* ---- Footer ---- */
+
+.snaptext-footer {
+  padding: 12px 18px;
+  border-top: 1px solid #eef0f3;
+}
+
+.snaptext-footer:empty {
+  display: none;
+}
+
+.snaptext-copy {
+  width: 100%;
+  padding: 10px 0;
+  background: #1a73e8;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.snaptext-copy:hover {
+  background: #1557b0;
+}
+
+.snaptext-copy:active {
+  background: #0d47a1;
+}
+
+/* ---- Loading state ---- */
+
+.snaptext-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 36px 0 24px;
+  gap: 14px;
+}
+
+.snaptext-spinner {
+  width: 42px;
+  height: 42px;
+  border: 4px solid #e3e7eb;
+  border-top-color: #1a73e8;
+  border-radius: 50%;
+  animation: snaptext-spin 0.75s linear infinite;
+}
+
+@keyframes snaptext-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.snaptext-status {
+  color: #555;
+  font-size: 14px;
+  margin: 0;
+}
+
+.snaptext-progress {
+  color: #1a73e8;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+  min-height: 28px;
+}
+
+/* ---- Empty / Error states ---- */
+
+.snaptext-empty {
+  text-align: center;
+  color: #888;
+  padding: 28px 0;
+  font-size: 14px;
+}
+
+.snaptext-error {
+  text-align: center;
+  padding: 24px 0;
+}
+
+.snaptext-error p {
+  margin: 0;
+  color: #c5221f;
+  font-size: 14px;
+  line-height: 1.6;
+}

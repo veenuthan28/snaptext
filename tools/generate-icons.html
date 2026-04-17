@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>SnapText – Generate PNG Icons</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 480px;
+        margin: 60px auto;
+        text-align: center;
+      }
+      button {
+        padding: 10px 22px;
+        font-size: 15px;
+        margin: 8px;
+        cursor: pointer;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        background: #1a73e8;
+        color: #fff;
+      }
+      button:hover {
+        background: #1557b0;
+      }
+      canvas {
+        display: none;
+      }
+      .note {
+        color: #666;
+        font-size: 13px;
+        margin-top: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>SnapText Icon Generator</h1>
+    <p>
+      Click a button to download the PNG icon at that size.<br />Place the
+      downloaded files in the <code>icons/</code> folder.
+    </p>
+
+    <canvas id="c"></canvas>
+
+    <div>
+      <button onclick="gen(16)">icon16.png</button>
+      <button onclick="gen(48)">icon48.png</button>
+      <button onclick="gen(128)">icon128.png</button>
+    </div>
+    <div style="margin-top: 16px">
+      <button onclick="genAll()">⬇ Download All</button>
+    </div>
+
+    <p class="note">
+      This page renders the SVG icon onto a canvas and exports PNG files.
+    </p>
+
+    <script>
+      const SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+      <rect width="128" height="128" rx="24" fill="#1a73e8"/>
+      <rect x="24" y="26" width="80" height="76" rx="8" fill="#fff" opacity=".15"/>
+      <line x1="38" y1="48" x2="90" y2="48" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+      <line x1="38" y1="64" x2="82" y2="64" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".8"/>
+      <line x1="38" y1="80" x2="70" y2="80" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".6"/>
+    </svg>`;
+
+      function gen(size) {
+        const canvas = document.getElementById('c');
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        const blob = new Blob([SVG], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(blob);
+        img.onload = () => {
+          ctx.clearRect(0, 0, size, size);
+          ctx.drawImage(img, 0, 0, size, size);
+          URL.revokeObjectURL(url);
+          const a = document.createElement('a');
+          a.download = 'icon' + size + '.png';
+          a.href = canvas.toDataURL('image/png');
+          a.click();
+        };
+        img.src = url;
+      }
+
+      function genAll() {
+        [16, 48, 128].forEach((s, i) => setTimeout(() => gen(s), i * 400));
+      }
+    </script>
+  </body>
+</html>
